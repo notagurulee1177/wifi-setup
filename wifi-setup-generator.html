@@ -1,93 +1,33 @@
-
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Wi-Fi 设置生成器</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wifi-setup</title>
   <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem;
-      color: #333;
-    }
-
-    .card {
-      background: white;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
-    }
-
-    input {
-      width: 100%;
-      padding: 0.6rem;
-      margin: 0.6rem 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-    }
-
-    button {
-      padding: 0.8rem 1.2rem;
-      border: none;
-      background: #333;
-      color: white;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 1rem;
-      width: 100%;
-    }
-
-    .output {
-      margin-top: 1.5rem;
-    }
-
-    #qrcode canvas {
-      margin: 1rem auto;
-    }
-
-    code {
-      background: #f0f0f0;
-      padding: 0.5rem;
-      display: block;
-      border-radius: 6px;
-      word-break: break-all;
-    }
+    /* 样式内容 */
   </style>
 </head>
 <body>
   <div class="card">
-    <h2>Wi-Fi 设置生成器</h2>
-    <input type="text" id="ssid" placeholder="输入 Wi-Fi 名称 (SSID)" />
-    <input type="text" id="password" placeholder="输入密码" />
-    <button onclick="generate()">生成二维码和NFC写入内容</button>
-
-    <div class="output">
-      <h3>二维码预览：</h3>
-      <div id="qrcode"></div>
-      <h4>NFC 写入内容：</h4>
-      <code id="nfcContent"></code>
-    </div>
+    <div class="ssid">请输入 Wi-Fi 名称</div>
+    <input id="ssidInput" placeholder="如：Cafe_WiFi" />
+    <div class="ssid">请输入密码</div>
+    <input id="passwordInput" placeholder="如：12345678" />
+    <button onclick="generate()">生成二维码</button>
+    <div id="qrcode"></div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.0/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script>
     function generate() {
-      const ssid = document.getElementById("ssid").value.trim();
-      const password = document.getElementById("password").value.trim();
+      const ssid = document.getElementById('ssidInput').value;
+      const password = document.getElementById('passwordInput').value;
       const wifiString = `WIFI:T:WPA;S:${ssid};P:${password};;`;
 
-      document.getElementById("nfcContent").innerText = wifiString;
-
-      QRCode.toCanvas(document.getElementById("qrcode"), wifiString, { width: 200 }, function (error) {
+      QRCode.toCanvas(document.getElementById('qrcode'), wifiString, function (error) {
         if (error) console.error(error);
+        console.log('QR Code generated!');
       });
     }
   </script>
