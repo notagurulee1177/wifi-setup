@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wi-Fi 设置</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", sans-serif;
+      background: #f8f8f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      padding: 1rem;
+    }
+
+    .card {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+
+    button {
+      padding: 0.8rem 1.5rem;
+      background-color: #333;
+      color: white;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 1.5rem;
+    }
+
+    #qrcode canvas {
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>Wi-Fi 分享</h2>
+    <input id="ssidInput" placeholder="Wi-Fi 名称" />
+    <input id="passwordInput" placeholder="Wi-Fi 密码" />
+    <button onclick="generate()">生成二维码</button>
+    <div id="qrcode"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    function generate() {
+      const ssid = document.getElementById("ssidInput").value;
+      const password = document.getElementById("passwordInput").value;
+      const qrText = `WIFI:T:WPA;S:${ssid};P:${password};;`;
+
+      document.getElementById("qrcode").innerHTML = "";
+
+      QRCode.toCanvas(document.getElementById("qrcode"), qrText, function (error) {
+        if (error) {
+          console.error(error);
+          alert("二维码生成失败");
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+
